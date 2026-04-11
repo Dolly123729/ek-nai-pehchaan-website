@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BYUH Admissions RAG Chatbot</title>
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+
+<!-- ðŸŒ LANGUAGE SWITCHER -->
+<div id="google_translate_element" style="text-align:right; margin:10px;"></div>
+
+<script>
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+      pageLanguage: 'en',
+       includedLanguages: 'en,hi,ta,te,bn,ml,mr,gu,kn,pa,ur,zh,ja,fil,ky',
+      layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+    }, 'google_translate_element');
+  }
+</script>
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<!-- ================= HEADER ================= -->
+<header class="navbar">
+  <div class="container nav-inner">
+
+    <a class="brand" href="index.html">
+      <!-- FIXED LOGO PATH -->
+      <img src="logo.png" alt="EK NAI PEHCHAAN logo" class="logo-img" width="130" />
+
+      <div class="brand-text">
+        <h1 class="brand-title">BYUH Admissions RAG Chatbot</h1>
+        <p class="brand-sub">Your journey to a new beginning</p>
+      </div>
+    </a>
+
+    <nav>
+  <a href="index.html">Home</a>
+  <a href="tools.html">AI Tools</a>
+  <a href="quiz.html">Quiz</a>
+  <a href="dashboard.html">Dashboard</a>
+  <a href="https://admissions.byuh.edu" target="_blank" rel="noopener">BYUH Admissions</a>
+  <a href="login.html" id="loginLink">Login</a>
+  <a href="#" id="logoutLink" style="display:none;">Logout</a>
+</nav>
+  
+
+    <a href="#skills" class="btn-primary">Get Started</a>
+
+  </div>
+  <script>
+  const isLoggedIn = localStorage.getItem("loggedIn");
+
+  if (isLoggedIn) {
+    document.getElementById("loginLink").style.display = "none";
+    document.getElementById("logoutLink").style.display = "inline";
+  }
+
+  document.getElementById("logoutLink").onclick = function () {
+    localStorage.removeItem("loggedIn");
+    alert("Logged out");
+    window.location.reload();
+  };
+</script>
+
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="hero-content">
+    <h2>AI Learning Tools for Open School Students</h2>
+
+    <p>
+      Empowering students in India to master English and AI tools for their future careers.
+      Designed for learners of English as an International Language (EIL),
+      focusing on confidence, pronunciation, clarity, and real-life communication â€”
+      guided step by step like a teacher.
+    </p>
+
+    <div class="hero-buttons">
+      <a href="tools.html" class="btn-primary">Explore AI Tools</a>
+      <a href="#skills" class="btn-outline">See Skills</a>
+    </div>
+  </div>
+
+  <img
+    src="https://images.pexels.com/photos/1571734/pexels-photo-1571734.jpeg"
+    alt="Students learning with AI"
+    class="hero-img"
+  />
+</section>
+
+<!-- ================= FEATURES ================= -->
+<section id="skills" class="features container">
+
+  <h3>What Youâ€™ll Learn</h3>
+  <p>Build strong communication and AI skills for school and work.</p>
+
+  <div class="feature-grid">
+
+    <!-- Grammar -->
+    <div class="feature-card">
+  <img src="https://images.pexels.com/photos/5676740/pexels-photo-5676740.jpeg" alt="Grammar Practice" />
+  <h4>Grammar Practice</h4>
+  <p>Improve your grammar with exercises and AI corrections.</p>
+  
+  <div class="card-actions">
+    <a href="grammar-practice.html" class="card-btn">ðŸ“ Start Practice</a>
+  </div>
+</div>
+
+    <!-- Reading & Listening -->
+    <div class="feature-card">
+  <img src="https://images.pexels.com/photos/159711/books-bookstore-book-reading-159711.jpeg" alt="Reading & Listening" />
+  <h4>Reading & Listening Hub</h4>
+  <p>Master comprehension with 50+ new materials uploaded daily.</p>
+
+  <div class="card-actions-vertical">
+    <div class="action-group">
+      <span>ðŸ“– Reading:</span>
+      <a href="reading-practice.html" class="card-btn-small">Class 8-12</a>
+    </div>
+    
+    <div class="action-group" style="margin-top: 10px; border-top: 1px solid #eee; padding-top: 10px;">
+      <span>ðŸ“… Daily Materials:</span>
+      <a href="#day1" class="card-btn-small" style="background:#28a745; color:rgb(255, 22, 22);">Today's 50</a>
+      <a href="archive.html" class="card-btn-small outline">Previous Days</a>
+    </div>
+  </div>
+</div>
+
+    <!-- Speaking -->
+    <div class="feature-card highlight">
+  <img src="https://images.pexels.com/photos/3777572/pexels-photo-3777572.jpeg" alt="Speaking Practice" />
+  <h4>Speaking Practice</h4>
+  <p>Improve fluency and confidence by speaking with a smart AI assistant.</p>
+
+  <div class="card-actions">
+    <a href="speaking.html" target="_blank" class="card-btn">ðŸŽ¤ Start Speaking</a>
+  </div>
+</div>
+
+    <!-- AI Study -->
+    <div class="feature-card">
+      <img src="https://images.pexels.com/photos/373543/pexels-photo-373543.jpeg" alt="AI Study Support" />
+      <h4>AI Study Support</h4>
+      <p>Learn how to use ChatGPT, Canva AI, and more to study smarter.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= CHATBOT ================= -->
+<div id="chatbot-container">
+  <button id="chatbot-btn">ðŸ’¬</button>
+
+  <div id="chat-window">
+    <div id="chat-box"></div>
+
+    <div class="chat-input-container">
+      <input id="chat-input" placeholder="Type a message..." />
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById("chatbot-btn").onclick = function () {
+    const box = document.getElementById("chat-window");
+    box.style.display = box.style.display === "block" ? "none" : "block";
+  };
+</script>
+
+<script src="chatbot.js"></script>
+
+</body>
+</html>
+
