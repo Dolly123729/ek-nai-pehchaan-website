@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Learning Smarter with AI – Ek Nai Pehchaan</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- LANGUAGE SWITCHER -->
+<div id="google_translate_element" style="text-align:right; padding:8px 5%; background:#fff; border-bottom:1px solid #e2e8f0;"></div>
+<script>
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+      pageLanguage: 'en',
+      includedLanguages: 'en,hi,ta,te,bn,ml,mr,gu,kn,pa,ur,zh-CN,ja,ko,fil,id,ms,th,vi,km,lo,my,ne,si,ru,fj,to,sm',
+      layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+    }, 'google_translate_element');
+  }
+</script>
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<!-- NAVBAR -->
+<header class="navbar">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">
+      <img src="logo.png.png" alt="Logo" class="logo-img" />
+      <div class="brand-text">
+        <div class="brand-title">Learning Smarter with AI</div>
+        <div class="brand-sub">Ek Nai Pehchaan</div>
+      </div>
+    </a>
+    <nav>
+      <a href="index.html" class="active">Home</a>
+      <a href="tools.html">AI Tools</a>
+      <a href="quiz.html">Quiz</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="contact.html">Contact</a>
+      <a href="#" id="logoutLink" style="display:none;">Logout</a>
+    </nav>
+    <a href="#skills" class="btn-primary">Get Started</a>
+  </div>
+</header>
+
+<script>
+  if (localStorage.getItem("loggedIn")) {
+    document.getElementById("logoutLink").style.display = "inline";
+  }
+  document.getElementById("logoutLink").onclick = function () {
+    localStorage.removeItem("loggedIn");
+    window.location.reload();
+  };
+</script>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <span class="hero-eyebrow">🇮🇳 Designed for Indian Students</span>
+    <h2>Ek Nai Pehchaan</h2>
+    <p>
+      Empowering students to master English and AI tools for their future careers.
+      Focused on confidence, pronunciation, clarity, and real-life communication —
+      guided step by step like a teacher.
+    </p>
+    <div class="hero-buttons">
+      <a href="tools.html" class="btn-primary">Explore AI Tools</a>
+      <a href="#skills" class="btn-outline">See Skills</a>
+    </div>
+  </div>
+  <img
+    src="https://images.pexels.com/photos/1571734/pexels-photo-1571734.jpeg"
+    alt="Students learning with AI"
+    class="hero-img"
+  />
+</section>
+
+<!-- FEATURES -->
+<section id="skills" class="features container">
+  <h3 class="section-title">What You'll Learn</h3>
+  <p class="section-sub">Build strong communication and AI skills for school and work.</p>
+
+  <div class="feature-grid">
+
+    <div class="feature-card">
+      <img src="https://images.pexels.com/photos/5676740/pexels-photo-5676740.jpeg" alt="Grammar Practice" />
+      <div class="card-body">
+        <h4>Grammar Practice</h4>
+        <p>Improve your grammar with 200 daily exercises and instant explanations.</p>
+        <div class="card-actions">
+          <a href="grammar-practice.html" class="card-btn">📝 Start Practice</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="feature-card">
+      <img src="https://images.pexels.com/photos/159711/books-bookstore-book-reading-159711.jpeg" alt="Reading & Listening" />
+      <div class="card-body">
+        <h4>Reading & Listening Hub</h4>
+        <p>Master comprehension with daily reading passages and audio stories.</p>
+        <div class="card-actions">
+          <a href="reading-practice.html" class="card-btn">📖 Read & Listen</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="feature-card">
+      <img src="https://images.pexels.com/photos/3777572/pexels-photo-3777572.jpeg" alt="Speaking Practice" />
+      <div class="card-body">
+        <h4>Speaking Practice</h4>
+        <p>Improve fluency and confidence by speaking with a smart AI partner.</p>
+        <div class="card-actions">
+          <a href="speaking.html" class="card-btn">🎤 Start Speaking</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="feature-card">
+      <img src="https://images.pexels.com/photos/373543/pexels-photo-373543.jpeg" alt="AI Study Support" />
+      <div class="card-body">
+        <h4>AI Study Support</h4>
+        <p>Learn how to use ChatGPT, Canva AI, Grammarly, and more to study smarter.</p>
+        <div class="card-actions">
+          <a href="tools.html" class="card-btn">🤖 Explore Tools</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <h3>Ready to start your journey?</h3>
+  <p>Take a quiz, practice speaking, or explore AI tools — all free for students.</p>
+  <a href="quiz.html">Take an English Quiz →</a>
+</section>
+
+<!-- CHATBOT -->
+<div id="chatbot-container">
+  <div id="chat-window">
+    <div class="chat-header">
+      💬 EK NAI Assistant
+      <span style="cursor:pointer; opacity:0.7;" onclick="document.getElementById('chat-window').style.display='none'">✕</span>
+    </div>
+    <div id="chat-box">
+      <div class="bot-msg">Hi! I'm your learning assistant. Ask me about quizzes, AI tools, or grammar practice!</div>
+    </div>
+    <div class="chat-input-container">
+      <input id="chat-input" placeholder="Ask something..." onkeydown="if(event.key==='Enter') sendMessage()" />
+      <button class="send-btn" onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+  <button id="chatbot-btn" onclick="toggleChat()">💬</button>
+</div>
+
+<script>
+  function toggleChat() {
+    const win = document.getElementById('chat-window');
+    win.style.display = win.style.display === 'flex' ? 'none' : 'flex';
+  }
+  document.getElementById('chat-window').style.display = 'none';
+  document.getElementById('chat-window').style.flexDirection = 'column';
+</script>
+<script src="chatbot.js"></script>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 Learning Smarter with AI · Ek Nai Pehchaan · Made with ❤️ for students everywhere</p>
+</footer>
+
+</body>
+</html>

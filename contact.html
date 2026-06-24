@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us – Learn Smart</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header class="navbar">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">
+      <img src="logo.png.png" alt="Logo" class="logo-img" />
+      <div class="brand-text">
+        <div class="brand-title">Learning Smarter with AI</div>
+        <div class="brand-sub">Ek Nai Pehchaan</div>
+      </div>
+    </a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="tools.html">AI Tools</a>
+      <a href="quiz.html">Quiz</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="contact.html" class="active">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<section class="small-hero">
+  <h2>Contact Us</h2>
+  <p>Have a question, suggestion, or need help? We'd love to hear from you!</p>
+</section>
+
+<section class="contact-section">
+  <div class="contact-form">
+    <h2>Send a Message</h2>
+
+    <label for="name">Your Name</label>
+    <input type="text" id="name" placeholder="e.g. Priya Sharma" />
+
+    <label for="email">Email Address</label>
+    <input type="email" id="email" placeholder="e.g. priya@email.com" />
+
+    <label for="subject">Subject</label>
+    <input type="text" id="subject" placeholder="e.g. Question about the quiz" />
+
+    <label for="message">Your Message</label>
+    <textarea id="message" rows="5" placeholder="Write your message here..."></textarea>
+
+    <button class="btn-primary" style="width:100%; border:none; cursor:pointer; font-family:inherit; font-size:16px; padding:13px;" onclick="submitForm()">
+      Send Message →
+    </button>
+
+    <p id="form-status" style="margin-top:14px; text-align:center; font-weight:700;"></p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 Learning Smarter with AI · Ek Nai Pehchaan · India 🇮🇳</p>
+</footer>
+
+<script>
+  function submitForm() {
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const message = document.getElementById("message").value.trim();
+    const status = document.getElementById("form-status");
+
+    if (!name || !email || !message) {
+      status.innerText = "⚠️ Please fill in all required fields.";
+      status.style.color = "#e8357a";
+      return;
+    }
+
+    status.innerText = "✅ Message sent! We'll get back to you soon.";
+    status.style.color = "#1aaa55";
+
+    // Clear form
+    ["name","email","subject","message"].forEach(id => {
+      document.getElementById(id).value = "";
+    });
+  }
+</script>
+
+</body>
+</html>

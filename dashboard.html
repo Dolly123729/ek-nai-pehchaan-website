@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Dashboard – Learn Smart</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header class="navbar">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">
+      <img src="logo.png.png" alt="Logo" class="logo-img" />
+      <div class="brand-text">
+        <div class="brand-title">Learning Smarter with AI</div>
+        <div class="brand-sub">Ek Nai Pehchaan</div>
+      </div>
+    </a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="tools.html">AI Tools</a>
+      <a href="quiz.html">Quiz</a>
+      <a href="dashboard.html" class="active">Dashboard</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<!-- PAGE HEADER -->
+<section class="small-hero">
+  <h2>📊 Your Learning Dashboard</h2>
+  <p>Track your English and AI learning progress every day.</p>
+</section>
+
+<!-- DASHBOARD CONTENT -->
+<div class="container" style="padding: 40px 5%;">
+
+  <div class="dash-grid">
+
+    <!-- STREAK -->
+    <div class="dash-card" style="border-left-color: #e8357a; text-align:center;">
+      <h3>🔥 Learning Streak</h3>
+      <div id="streakCount">0</div>
+      <p style="font-size:14px; color:var(--muted); margin-top:4px;">days in a row</p>
+    </div>
+
+    <!-- MOTIVATION -->
+    <div class="dash-card" style="border-left-color: #1aaa55;">
+      <h3>💡 Motivation of the Day</h3>
+      <p id="motivationText"></p>
+    </div>
+
+    <!-- QUICK LINKS -->
+    <div class="dash-card">
+      <h3>🚀 Quick Practise</h3>
+      <ul>
+        <li><a href="grammar-practice.html" style="color:var(--blue); text-decoration:none; font-weight:700;">📝 Grammar Practice</a></li>
+        <li><a href="reading-practice.html" style="color:var(--blue); text-decoration:none; font-weight:700;">📖 Reading & Listening</a></li>
+        <li><a href="speaking.html" style="color:var(--blue); text-decoration:none; font-weight:700;">🎤 Speaking Partner</a></li>
+        <li><a href="quiz.html" style="color:var(--blue); text-decoration:none; font-weight:700;">📚 Vocabulary Quiz</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- DAILY TASKS -->
+  <div class="dash-card" style="margin-top: 24px; border-left-color: #1e4fd8;">
+    <h3>✅ Daily Tasks</h3>
+    <ul id="taskList"></ul>
+  </div>
+
+  <!-- QUIZ RESULTS -->
+  <div class="dash-card" style="margin-top: 24px;">
+    <h3>📈 Recent Quiz Results</h3>
+    <ul id="paragraphList"></ul>
+    <button onclick="clearResults()" style="margin-top:16px; background:#f3f4f6; border:none; padding:8px 16px; border-radius:8px; cursor:pointer; font-family:inherit; font-weight:700; font-size:13px; color:#6b7280;">🗑️ Clear History</button>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 Learning Smarter with AI · <a href="index.html">Home</a></p>
+</footer>
+
+<script src="dashboard.js"></script>
+</body>
+</html>

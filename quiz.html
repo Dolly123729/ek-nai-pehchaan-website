@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>English Quizzes – Learn Smart</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="quiz.js"></script>
+</head>
+<body>
+
+<!-- LANGUAGE SWITCHER -->
+<div id="google_translate_element" style="text-align:right; padding:8px 5%; background:#fff; border-bottom:1px solid #e2e8f0;"></div>
+<script>
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({ pageLanguage: 'en', includedLanguages: 'en,hi' }, 'google_translate_element');
+  }
+</script>
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<!-- NAVBAR -->
+<header class="navbar">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">
+      <img src="logo.png.png" alt="Logo" class="logo-img" />
+      <div class="brand-text">
+        <div class="brand-title">Learning Smarter with AI</div>
+        <div class="brand-sub">Ek Nai Pehchaan</div>
+      </div>
+    </a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="tools.html">AI Tools</a>
+      <a href="quiz.html" class="active">Quiz</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="small-hero">
+  <h2>English Practice Quizzes</h2>
+  <p>Choose a category below to start practicing. Results are saved to your dashboard.</p>
+</section>
+
+<!-- QUIZ MENU -->
+<section class="features container">
+  <div class="feature-grid" style="max-width:800px; margin:0 auto;">
+
+    <div class="card" onclick="loadQuiz('vocabulary')" style="cursor:pointer; border-top:4px solid #1e4fd8;">
+      <div style="font-size:36px; margin-bottom:12px;">📚</div>
+      <h4>Vocabulary Quiz</h4>
+      <p>Improve word meanings, synonyms, and spelling.</p>
+    </div>
+
+    <div class="card" onclick="loadQuiz('grammar')" style="cursor:pointer; border-top:4px solid #1aaa55;">
+      <div style="font-size:36px; margin-bottom:12px;">✍️</div>
+      <h4>Grammar Quiz</h4>
+      <p>Practice sentence structure, tenses, and grammar rules.</p>
+    </div>
+
+    <div class="card" onclick="loadQuiz('reading')" style="cursor:pointer; border-top:4px solid #e8357a;">
+      <div style="font-size:36px; margin-bottom:12px;">📖</div>
+      <h4>Reading & Comprehension</h4>
+      <p>Test your understanding of passages and texts.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- QUIZ AREA -->
+<section id="quiz-area" class="quiz-container hidden">
+  <h3 id="quiz-title" style="color:var(--blue); font-size:20px; font-weight:900; margin-bottom:20px;"></h3>
+  <div id="question-box"></div>
+  <button class="btn-primary" style="margin-top:12px; border:none; cursor:pointer; font-family:inherit; font-size:15px;" onclick="submitQuiz()">Submit Answers</button>
+  <p id="result"></p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 Learning Smarter with AI · <a href="index.html">Home</a></p>
+</footer>
+
+</body>
+</html>

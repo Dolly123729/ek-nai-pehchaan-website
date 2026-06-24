@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reading & Listening Practice – Learn Smart</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .rp-container { max-width: 900px; margin: 40px auto; background: #fff; padding: 36px; border-radius: 16px; box-shadow: var(--shadow); }
+    .rp-container h2 { color: var(--blue); text-align: center; font-size: 26px; margin-bottom: 6px; }
+
+    .material-list { list-style: none; padding: 0; margin-top: 20px; }
+    .material-item {
+      background: #fff; padding: 16px 20px; margin-bottom: 10px;
+      border: 1.5px solid var(--border); border-radius: 10px;
+      display: flex; justify-content: space-between; align-items: center;
+      transition: 0.2s; font-size: 15px;
+    }
+    .material-item:hover { border-color: var(--blue); transform: translateX(4px); }
+    .material-item.completed { border-left: 5px solid var(--green); background: #f0fff4; }
+
+    .read-btn { background: var(--blue); color: white; padding: 8px 20px; border-radius: 8px; cursor: pointer; border: none; font-weight: 700; font-family: inherit; font-size: 14px; }
+    .read-btn:hover { background: var(--blue-dark); }
+    .listen-btn { background: #f59e0b; }
+    .listen-btn:hover { background: #d97706; }
+
+    .modal-content { max-width: 760px; }
+    #modalBody { line-height: 1.85; font-size: 16px; color: #374151; margin: 20px 0; }
+
+    .modal-actions { display: flex; gap: 12px; margin-top: 24px; border-top: 1.5px solid var(--border); padding-top: 20px; justify-content: center; flex-wrap: wrap; }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header class="navbar">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">
+      <img src="logo.png.png" alt="Logo" class="logo-img" />
+      <div class="brand-text">
+        <div class="brand-title">Learning Smarter with AI</div>
+        <div class="brand-sub">Ek Nai Pehchaan</div>
+      </div>
+    </a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="tools.html">AI Tools</a>
+      <a href="quiz.html">Quiz</a>
+      <a href="dashboard.html">Dashboard</a>
+    </nav>
+    <a href="index.html" class="btn-outline" style="font-size:13px;">← Back</a>
+  </div>
+</header>
+
+<div class="container" style="padding: 40px 5%;">
+  <div class="rp-container">
+    <a href="index.html" style="text-decoration:none; color:var(--blue); font-weight:700;">← Back to Home</a>
+    <h2>Reading & Listening Practice</h2>
+    <p style="text-align:center; color:var(--muted);">Read passages and use the text-to-speech to improve your listening skills.</p>
+
+    <!-- PROGRESS -->
+    <div style="font-weight:800; font-size:15px; margin: 20px 0 6px;">Daily Progress: <span id="progressText">0 / 5</span></div>
+    <div class="progress-wrapper"><div class="progress-bar-fill" id="progressBar" style="width:0%"></div></div>
+
+    <ul class="material-list">
+
+      <li class="material-item">
+        <span>📰 01. Reading: The Impact of Climate Change</span>
+        <button class="read-btn" onclick="showPractice(this, 'The Impact of Climate Change', 'Arctic ice is melting at an alarming rate due to rising global temperatures. This causes sea levels to rise, threatening coastal cities around the world — including parts of Mumbai and Chennai. Scientists are urging governments to switch to renewable energy sources like wind and solar power to reduce carbon emissions before it is too late.')">Read</button>
+      </li>
+
+      <li class="material-item">
+        <span>📰 02. Reading: The History of the Internet</span>
+        <button class="read-btn" onclick="showPractice(this, 'The History of the Internet', 'The internet began as a small research project called ARPANET in the 1960s, designed for military and academic communication in the United States. Today, it connects over five billion people, enabling instant communication, online shopping, education, and the sharing of knowledge across every continent in the world.')">Read</button>
+      </li>
+
+      <li class="material-item">
+        <span>🚀 03. Reading: Space Exploration in 2026</span>
+        <button class="read-btn" onclick="showPractice(this, 'Space Exploration in 2026', 'Private companies and space agencies are now working together to build a permanent research base on the Moon. This lunar base will serve as a stepping stone for the first human mission to Mars. Scientists believe that knowledge gained from the Moon base will help solve many challenges of deep space travel, including radiation protection and growing food in space.')">Read</button>
+      </li>
+
+      <li class="material-item">
+        <span>🎧 04. Story: The Forest Secret (Chapter 1)</span>
+        <button class="read-btn listen-btn" onclick="showPractice(this, 'The Forest Secret — Chapter 1', 'Deep inside the ancient forest, there was a tree that glowed softly at night. Local villagers believed that the tree held the memories of the earth itself. One evening, a curious twelve-year-old named Leo decided to find it. He carried only a small lantern and his grandfather\'s old hand-drawn map. As he walked deeper into the forest, the air grew cooler and the stars above him seemed to shine brighter than ever.')">🎧 Listen</button>
+      </li>
+
+      <li class="material-item">
+        <span>🎙️ 05. Podcast: Interview with a Scientist</span>
+        <button class="read-btn listen-btn" onclick="showPractice(this, 'Interview with a Scientist', '\"The most important thing for young students to learn is curiosity,\" said Dr. Aris in today\'s science podcast. \"Do not just accept the answer you are given. Always ask — why? Science is not about knowing everything. It is about the journey of discovery, and the courage to be wrong, to try again, and to keep asking questions. That is how the greatest discoveries in history were made.\"')">🎧 Listen</button>
+      </li>
+
+    </ul>
+  </div>
+</div>
+
+<!-- READING MODAL -->
+<div id="practiceModal" class="modal">
+  <div class="modal-content">
+    <h3 id="modalTitle" style="color:var(--blue); border-bottom:2px solid var(--border); padding-bottom:12px;"></h3>
+    <div id="modalBody"></div>
+    <div class="modal-actions">
+      <button class="read-btn listen-btn" style="padding:12px 28px;" onclick="speakModalText()">🔊 Read Aloud</button>
+      <button class="read-btn" style="background:#6b7280; padding:12px 28px;" onclick="stopSpeaking()">⏹ Stop</button>
+      <button class="read-btn" style="background:#6b7280; padding:12px 28px;" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 Learning Smarter with AI · <a href="index.html">Home</a></p>
+</footer>
+
+<script>
+  let completedCount = 0;
+  const totalItems = 5;
+
+  function showPractice(btn, title, content) {
+    const item = btn.closest('.material-item');
+    if (!item.classList.contains('completed')) {
+      item.classList.add('completed');
+      completedCount++;
+      const pct = (completedCount / totalItems) * 100;
+      document.getElementById('progressBar').style.width = pct + "%";
+      document.getElementById('progressText').innerText = completedCount + " / " + totalItems;
+    }
+    document.getElementById('modalTitle').innerText = title;
+    document.getElementById('modalBody').innerText = content;
+    document.getElementById('practiceModal').style.display = 'block';
+  }
+
+  function closeModal() {
+    document.getElementById('practiceModal').style.display = 'none';
+    window.speechSynthesis.cancel();
+  }
+
+  function speakModalText() {
+    window.speechSynthesis.cancel();
+    const text = document.getElementById('modalBody').innerText;
+    const speech = new SpeechSynthesisUtterance(text);
+    speech.rate = 0.88;
+    speech.lang = 'en-US';
+    window.speechSynthesis.speak(speech);
+  }
+
+  function stopSpeaking() {
+    window.speechSynthesis.cancel();
+  }
+
+  window.onclick = function(e) {
+    if (e.target.classList.contains('modal')) closeModal();
+  };
+</script>
+
+</body>
+</html>

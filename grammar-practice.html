@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grammar Practice – 200 Challenges</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .gp-container { max-width: 820px; margin: 40px auto; background: #fff; padding: 36px; border-radius: 16px; box-shadow: var(--shadow); }
+    .gp-container h2 { color: #1aaa55; text-align: center; font-size: 26px; margin-bottom: 6px; }
+
+    .level-filters { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin: 24px 0; }
+    .filter-btn { background: #e5e7eb; color: #374151; border: none; padding: 9px 20px; border-radius: 24px; cursor: pointer; font-family: inherit; font-weight: 700; font-size: 14px; transition: 0.2s; }
+    .filter-btn:hover, .filter-btn.active { background: #1aaa55; color: #fff; }
+
+    .progress-label { font-weight: 800; font-size: 15px; margin-bottom: 6px; color: var(--text); }
+    .progress-wrapper { background: #e5e7eb; border-radius: 20px; height: 10px; margin-bottom: 24px; overflow: hidden; }
+    #progressBar { background: #1aaa55; width: 0%; height: 100%; transition: width 0.4s ease; border-radius: 20px; }
+
+    .material-list { list-style: none; padding: 0; }
+    .material-item {
+      background: #fff; padding: 16px 20px; margin-bottom: 10px;
+      border: 1.5px solid #e5e7eb; border-radius: 10px;
+      display: flex; justify-content: space-between; align-items: center;
+      transition: 0.2s; font-size: 15px;
+    }
+    .material-item:hover { border-color: #1aaa55; transform: translateX(4px); }
+    .material-item.completed { border-left: 5px solid #1aaa55; background: #f0fff4; }
+    .material-item.locked { opacity: 0.55; pointer-events: none; }
+    .material-item.hidden-item { display: none; }
+
+    .tag-btn { background: #1aaa55; color: white; padding: 8px 20px; border-radius: 8px; cursor: pointer; border: none; font-weight: 700; font-family: inherit; font-size: 14px; transition: 0.2s; }
+    .tag-btn:hover { background: #128a42; }
+    .tag-btn:disabled { background: #9ca3af; cursor: not-allowed; }
+
+    .badge { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-left: 10px; }
+    .badge-beginner { background: #d1fae5; color: #065f46; }
+    .badge-intermediate { background: #fef3c7; color: #92400e; }
+    .badge-advanced { background: #fee2e2; color: #991b1b; }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header class="navbar">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">
+      <img src="logo.png.png" alt="Logo" class="logo-img" />
+      <div class="brand-text">
+        <div class="brand-title">Learning Smarter with AI</div>
+        <div class="brand-sub">Ek Nai Pehchaan</div>
+      </div>
+    </a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="tools.html">AI Tools</a>
+      <a href="quiz.html">Quiz</a>
+      <a href="dashboard.html">Dashboard</a>
+    </nav>
+    <a href="index.html" class="btn-outline" style="font-size:13px;">← Back</a>
+  </div>
+</header>
+
+<div class="container" style="padding: 40px 5%;">
+  <div class="gp-container">
+    <a href="index.html" style="text-decoration:none; color:#1aaa55; font-weight:700;">← Back to Home</a>
+    <h2>Grammar Practice: 200 Daily Challenges</h2>
+    <p style="text-align:center; color:var(--muted); margin-bottom:20px;">Master essential rules with exercises and explanations.</p>
+
+    <!-- LEVEL FILTER -->
+    <div class="level-filters">
+      <button class="filter-btn active" onclick="filterLevel('all', this)">All Levels</button>
+      <button class="filter-btn" onclick="filterLevel('beginner', this)">🟢 Beginner</button>
+      <button class="filter-btn" onclick="filterLevel('intermediate', this)">🟡 Intermediate</button>
+      <button class="filter-btn" onclick="filterLevel('advanced', this)">🔴 Advanced</button>
+    </div>
+
+    <!-- PROGRESS -->
+    <div class="progress-label">Grammar Progress: <span id="progressText">0 / 10</span></div>
+    <div class="progress-wrapper"><div id="progressBar"></div></div>
+
+    <!-- GRAMMAR LIST -->
+    <ul class="material-list" id="grammarList">
+
+      <!-- BEGINNER -->
+      <li class="material-item beginner" data-level="beginner">
+        <span>01. Subject-Verb Agreement <span class="badge badge-beginner">Beginner</span></span>
+        <button class="tag-btn" onclick="showGrammar(this,'Subject-Verb Agreement','<b>Rule:</b> Singular subjects take singular verbs; plural subjects take plural verbs.<br><br><b>✅ Correct:</b> The student <u>is</u> reading.<br><b>❌ Incorrect:</b> The student <u>are</u> reading.<br><br><b>✅ Correct:</b> The teachers <u>are</u> working hard.<br><b>❌ Incorrect:</b> The teachers <u>is</u> working hard.')">Learn</button>
+      </li>
+
+      <li class="material-item beginner" data-level="beginner">
+        <span>02. Articles: A vs An <span class="badge badge-beginner">Beginner</span></span>
+        <button class="tag-btn" onclick="showGrammar(this,'Articles: A vs An','Use <b>An</b> before vowel sounds (A, E, I, O, U).<br>Use <b>A</b> before consonant sounds.<br><br><b>Examples:</b><br>• An apple 🍎<br>• An honest man (H is silent)<br>• A unique gift (U sounds like Y)<br>• A book 📚')">Learn</button>
+      </li>
+
+      <li class="material-item beginner" data-level="beginner">
+        <span>03. Prepositions of Time: In, On, At <span class="badge badge-beginner">Beginner</span></span>
+        <button class="tag-btn" onclick="showGrammar(this,'Prepositions of Time','<b>AT</b> → Precise time: at 10:00 AM, at midnight<br><b>ON</b> → Days and dates: on Monday, on 15th August<br><b>IN</b> → Months, years, long periods: in February, in 2025, in the morning<br><br><b>Examples:</b><br>• I wake up <b>at</b> 6 AM.<br>• School starts <b>on</b> Monday.<br>• We celebrate Diwali <b>in</b> October.')">Learn</button>
+      </li>
+
+      <!-- INTERMEDIATE -->
+      <li class="material-item intermediate" data-level="intermediate">
+        <span>04. Present Continuous Tense <span class="badge badge-intermediate">Intermediate</span></span>
+        <button class="tag-btn" onclick="showGrammar(this,'Present Continuous Tense','<b>Use:</b> Actions happening <u>right now</u> or around this time.<br><b>Formula:</b> Am / Is / Are + Verb-ing<br><br><b>Examples:</b><br>• She <b>is studying</b> for her exam.<br>• They <b>are playing</b> cricket.<br>• I <b>am reading</b> a book.<br><br><b>Signal words:</b> now, at the moment, currently, look!')">Learn</button>
+      </li>
+
+      <li class="material-item intermediate" data-level="intermediate">
+        <span>05. Past Simple (Regular Verbs) <span class="badge badge-intermediate">Intermediate</span></span>
+        <button class="tag-btn" onclick="showGrammar(this,'Past Simple (Regular)','<b>Rule:</b> Actions finished in the past.<br><b>Formula:</b> Verb + <b>ed</b><br><br><b>Examples:</b><br>• We <b>visited</b> the library yesterday.<br>• She <b>cooked</b> rice for dinner.<br>• They <b>walked</b> to school.<br><br><b>Spelling tip:</b> walk→walked, study→studied, stop→stopped')">Learn</button>
+      </li>
+
+      <li class="material-item intermediate" data-level="intermediate">
+        <span>06. Modals: Can vs Could <span class="badge badge-intermediate">Intermediate</span></span>
+        <button class="tag-btn" onclick="showGrammar(this,'Modals: Can / Could','<b>CAN</b> → Present ability or permission<br><b>COULD</b> → Past ability, polite requests<br><br><b>Examples:</b><br>• I <b>can</b> speak English fluently now.<br>• I <b>could</b> swim when I was five.<br>• <b>Could</b> you please open the window? (polite)<br>• <b>Can</b> I borrow your pen? (permission)')">Learn</button>
+      </li>
+
+      <li class="material-item intermediate" data-level="intermediate">
+        <span>07. Comparative Adjectives <span class="badge badge-intermediate">Intermediate</span></span>
+        <button class="tag-btn" onclick="showGrammar(this,'Comparative Adjectives','<b>Rule:</b> Used to compare two things.<br><br><b>Short words:</b> Adjective + <b>er</b><br>• fast → faster, tall → taller<br><br><b>Long words:</b> <b>more</b> + Adjective<br>• beautiful → more beautiful<br>• intelligent → more intelligent<br><br><b>Irregular forms:</b><br>• good → better • bad → worse • far → farther')">Learn</button>
+      </li>
+
+      <!-- ADVANCED -->
+      <li class="material-item advanced" data-level="advanced">
+        <span>08. Future: Will vs Going To <span class="badge badge-advanced">Advanced</span></span>
+        <button class="tag-btn" onclick="showGrammar(this,'Future: Will vs Going To','<b>WILL</b> → Snap decisions, promises, predictions<br><b>GOING TO</b> → Pre-planned actions, evidence-based predictions<br><br><b>Examples:</b><br>• I <b>will</b> help you. (spontaneous decision)<br>• I <b>am going to</b> study medicine. (already planned)<br>• Look at those clouds — it <b>is going to</b> rain! (evidence)<br>• I <b>will</b> always love this country. (promise)')">Learn</button>
+      </li>
+
+      <li class="material-item advanced" data-level="advanced">
+        <span>09. Irregular Plural Nouns <span class="badge badge-advanced">Advanced</span></span>
+        <button class="tag-btn" onclick="showGrammar(this,'Irregular Plural Nouns','Some nouns change form completely (do NOT add -s).<br><br><b>Examples:</b><br>• Person → People<br>• Child → Children<br>• Mouse → Mice<br>• Foot → Feet<br>• Tooth → Teeth<br>• Goose → Geese<br>• Man → Men, Woman → Women<br>• Ox → Oxen')">Learn</button>
+      </li>
+
+      <li class="material-item advanced" data-level="advanced">
+        <span>10. Possessive Pronouns <span class="badge badge-advanced">Advanced</span></span>
+        <button class="tag-btn" onclick="showGrammar(this,'Possessive Pronouns','Show ownership <b>without repeating</b> the noun.<br><br><b>Pronouns:</b> mine, yours, his, hers, ours, theirs<br><br><b>Examples:</b><br>• That book is <b>mine</b>. (not: my book)<br>• Is this pen <b>yours</b>?<br>• The red bag is <b>hers</b>.<br>• The victory was <b>ours</b>.<br><br><b>Remember:</b> No apostrophe — it\'s "its" not "it\'s" for possession.')">Learn</button>
+      </li>
+
+    </ul>
+  </div>
+</div>
+
+<!-- GRAMMAR MODAL -->
+<div id="grammarModal" class="modal">
+  <div class="modal-content">
+    <h3 id="modalTitle" style="color:#1aaa55;"></h3>
+    <hr style="margin:14px 0; border:none; border-top:1.5px solid #e5e7eb;" />
+    <p id="modalBody" style="line-height:1.8; font-size:15px; color:#374151; margin: 16px 0;"></p>
+    <div style="text-align:right; margin-top:20px;">
+      <button class="modal-close-btn" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 Learning Smarter with AI · <a href="index.html">Home</a></p>
+</footer>
+
+<script>
+  let completedCount = 0;
+  const totalItems = document.querySelectorAll('.material-item').length;
+
+  document.getElementById('progressText').innerText = `0 / ${totalItems}`;
+
+  function showGrammar(btn, title, body) {
+    const item = btn.closest('.material-item');
+    if (!item.classList.contains('completed')) {
+      item.classList.add('completed');
+      completedCount++;
+      updateProgress();
+    }
+    document.getElementById('modalTitle').innerText = title;
+    document.getElementById('modalBody').innerHTML = body;
+    document.getElementById('grammarModal').style.display = 'block';
+  }
+
+  function updateProgress() {
+    const pct = (completedCount / totalItems) * 100;
+    document.getElementById('progressBar').style.width = pct + "%";
+    document.getElementById('progressText').innerText = `${completedCount} / ${totalItems}`;
+  }
+
+  function closeModal() {
+    document.getElementById('grammarModal').style.display = 'none';
+  }
+
+  function filterLevel(level, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    document.querySelectorAll('.material-item').forEach(item => {
+      if (level === 'all' || item.dataset.level === level) {
+        item.classList.remove('hidden-item');
+      } else {
+        item.classList.add('hidden-item');
+      }
+    });
+  }
+
+  window.onclick = function(e) {
+    if (e.target.classList.contains('modal')) closeModal();
+  };
+</script>
+
+</body>
+</html>
