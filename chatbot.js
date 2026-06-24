@@ -1,6 +1,11 @@
 ﻿const conversation = [];
 let requestInProgress = false;
 
+const isLocalDevelopment = ["localhost", "127.0.0.1"].includes(window.location.hostname);
+const CHAT_API_URL = isLocalDevelopment
+  ? "/api/chat"
+  : "https://ek-nai-pehchaan-api.onrender.com/api/chat";
+
 async function sendMessage() {
   const input = document.getElementById("chat-input");
   const chatBox = document.getElementById("chat-box");
@@ -20,7 +25,7 @@ async function sendMessage() {
   const waitingMessage = appendMessage("bot-msg", "Thinking...");
 
   try {
-    const response = await fetch("/api/chat", {
+    const response = await fetch(CHAT_API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ messages: conversation.slice(-10) })
@@ -35,8 +40,9 @@ async function sendMessage() {
     waitingMessage.textContent = data.reply;
     conversation.push({ role: "assistant", content: data.reply });
   } catch (error) {
+    console.error("Chat request failed:", error);
     waitingMessage.textContent =
-      error.message || "I could not connect to the assistant. Please try again.";
+      "The online assistant is temporarily unavailable. Please try again shortly.";
     waitingMessage.style.color = "#b91c1c";
   } finally {
     requestInProgress = false;

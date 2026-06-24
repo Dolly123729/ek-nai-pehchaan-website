@@ -6,7 +6,17 @@ const ROOT = __dirname;
 const PORT = Number(process.env.PORT) || 3000;
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const OPENAI_MODEL = process.env.OPENAI_MODEL || "gpt-5-mini";
+const ALLOWED_ORIGINS = new Set([
+  "https://dolly123729.github.io",
+  "http://localhost:3000",
+  "http://127.0.0.1:3000",
+  "http://localhost:5501",
+  "http://127.0.0.1:5501"
+]);
 
+const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
+const RATE_LIMIT_MAX_REQUESTS = 20;
+const requestCounts = new Map();
 
 const mimeTypes = {
   ".css": "text/css; charset=utf-8",
@@ -20,7 +30,28 @@ const mimeTypes = {
 
 const server = http.createServer(async (request, response) => {
   try {
-    if (request.method === "POST" && request.url === "/api/chat") {
+    const requestUrl = new URL(request.url, `http://${request.headers.host || "localhost"}`);
+
+    if (requestUrl.pathname === "/health") {
+      sendJson(response, 200, { status: "ok" });
+      return;
+    }
+
+    if (requestUrl.pathname === "/api/chat") {
+      if (!applyCors(request, response)) return;
+
+      if (request.method === "OPTIONS") {
+        response.writeHead(204);
+        response.end();
+        return;
+      }
+
+      if (request.method !== "POST") {
+        sendJson(response, 405, { error: "Method not allowed." });
+        return;
+      }
+
+      if (!checkRateLimit(request, response)) return;
       await handleChat(request, response);
       return;
     }
@@ -30,18 +61,59 @@ const server = http.createServer(async (request, response) => {
       return;
     }
 
-    serveStaticFile(request.url, response);
+    serveStaticFile(requestUrl.pathname, response);
   } catch (error) {
     console.error(error);
-    sendJson(response, 500, { error: error.message || "Unexpected server error." });
+    if (!response.headersSent) {
+      sendJson(response, 500, { error: "Unexpected server error." });
+    }
   }
 });
 
+function applyCors(request, response) {
+  const origin = request.headers.origin;
+
+  if (!origin) return true;
+
+  if (!ALLOWED_ORIGINS.has(origin)) {
+    sendJson(response, 403, { error: "This website is not allowed to use the chatbot." });
+    return false;
+  }
+
+  response.setHeader("Access-Control-Allow-Origin", origin);
+  response.setHeader("Vary", "Origin");
+  response.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  response.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  return true;
+}
+
+function checkRateLimit(request, response) {
+  const forwardedFor = request.headers["x-forwarded-for"];
+  const clientIp = String(forwardedFor || request.socket.remoteAddress || "unknown")
+    .split(",")[0]
+    .trim();
+  const now = Date.now();
+  const current = requestCounts.get(clientIp);
+
+  if (!current || now >= current.resetAt) {
+    requestCounts.set(clientIp, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
+    return true;
+  }
+
+  if (current.count >= RATE_LIMIT_MAX_REQUESTS) {
+    const retryAfter = Math.ceil((current.resetAt - now) / 1000);
+    response.setHeader("Retry-After", retryAfter);
+    sendJson(response, 429, { error: "Too many messages. Please try again later." });
+    return false;
+  }
+
+  current.count += 1;
+  return true;
+}
+
 async function handleChat(request, response) {
   if (!OPENAI_API_KEY) {
-    sendJson(response, 500, {
-      error: "OPENAI_API_KEY is missing. Add it to your .env file and restart the server."
-    });
+    sendJson(response, 500, { error: "The chatbot API key is not configured on the server." });
     return;
   }
 
@@ -56,8 +128,9 @@ async function handleChat(request, response) {
     .slice(-10)
     .map((message) => ({
       role: message.role,
-      content: message.content.slice(0, 2000)
-    }));
+      content: message.content.trim().slice(0, 2000)
+    }))
+    .filter((message) => message.content);
 
   if (!safeMessages.length || safeMessages.at(-1).role !== "user") {
     sendJson(response, 400, { error: "Please enter a message." });
@@ -76,17 +149,16 @@ async function handleChat(request, response) {
         "You are EK NAI Assistant, a friendly English-learning tutor for students. " +
         "Give clear, encouraging, age-appropriate answers. Keep most answers under 150 words. " +
         "Help with grammar, vocabulary, reading, speaking practice, quizzes, and responsible AI-tool use.",
-      input: safeMessages
+      input: safeMessages,
+      max_output_tokens: 300
     })
   });
 
   const data = await apiResponse.json();
 
   if (!apiResponse.ok) {
-    console.error("OpenAI API error:", data);
-    sendJson(response, apiResponse.status, {
-      error: data.error?.message || "The OpenAI API request failed."
-    });
+    console.error("OpenAI API error:", data.error?.code || apiResponse.status);
+    sendJson(response, 502, { error: "The learning assistant is temporarily unavailable." });
     return;
   }
 
@@ -116,7 +188,7 @@ function readJsonBody(request) {
 
     request.on("data", (chunk) => {
       body += chunk;
-      if (body.length > 50_000) {
+      if (body.length > 25_000) {
         reject(new Error("Request body is too large."));
         request.destroy();
       }
@@ -134,9 +206,8 @@ function readJsonBody(request) {
   });
 }
 
-function serveStaticFile(url, response) {
-  const pathname = decodeURIComponent((url || "/").split("?")[0]);
-  const requestedPath = pathname === "/" ? "index.html" : pathname.replace(/^\/+/, "");
+function serveStaticFile(urlPath, response) {
+  const requestedPath = urlPath === "/" ? "index.html" : decodeURIComponent(urlPath).replace(/^\/+/, "");
   const filePath = path.resolve(ROOT, requestedPath);
 
   if (filePath !== ROOT && !filePath.startsWith(`${ROOT}${path.sep}`)) {
@@ -152,8 +223,7 @@ function serveStaticFile(url, response) {
       return;
     }
 
-    const contentType =
-      mimeTypes[path.extname(filePath).toLowerCase()] || "application/octet-stream";
+    const contentType = mimeTypes[path.extname(filePath).toLowerCase()] || "application/octet-stream";
     response.writeHead(200, { "Content-Type": contentType });
     response.end(content);
   });
@@ -167,11 +237,9 @@ function sendJson(response, statusCode, payload) {
   response.end(JSON.stringify(payload));
 }
 
-server.listen(PORT, () => {
-  console.log(`EK NAI is running at http://localhost:${PORT}`);
+server.listen(PORT, "0.0.0.0", () => {
+  console.log(`EK NAI is running on port ${PORT}`);
   if (!OPENAI_API_KEY) {
-    console.warn("OPENAI_API_KEY is not set. Add it to .env before using the chatbot.");
+    console.warn("OPENAI_API_KEY is not set.");
   }
 });
-
-
